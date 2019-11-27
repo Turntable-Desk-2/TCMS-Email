@@ -1,3 +1,14 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies{
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE")
+	}
+}
+
+
+
 plugins {
 	id 'org.springframework.boot' version '2.2.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
@@ -7,16 +18,34 @@ plugins {
 group = 'io.turntabl'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+//targetCompatibilty = '1.8'
 
 repositories {
 	mavenCentral()
+	jcenter()
+}
+jar {
+	enabled = true
+}
+bootJar {
+	classifier = 'boot'
 }
 
 dependencies {
-//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'org.postgresql:postgresql'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+	testCompile("junit:junit")
+	compile ("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.0'
+	compile  'com.google.code.gson:gson:2.8.5'
+	compile 'redis.clients:jedis:3.0.0'
+
+	testImplementation ('org.springframework.boot:spring-boot-starter-test')
+	{
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
@@ -24,3 +53,4 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+ext['slf4j.version'] = '1.7.20'
